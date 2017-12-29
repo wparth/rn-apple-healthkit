@@ -144,10 +144,12 @@
 {
     HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit meterUnit]];
     NSDate *date = [RCTAppleHealthKit dateFromOptions:input key:@"date" withDefault:[NSDate date]];
+    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:[NSDate date]];
+    NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
 
     HKQuantityType *quantityType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceWalkingRunning];
 
-    [self fetchSumOfSamplesOnDayForType:quantityType unit:unit day:date completion:^(double distance, NSDate *startDate, NSDate *endDate, NSError *error) {
+    [self fetchDistanceBetweenTimeIntervals:quantityType unit:unit day:date startDate: startDate endDate: endDate completion:^(double distance, NSError *error) {
         if (!distance) {
             NSLog(@"ERROR getting DistanceWalkingRunning: %@", error);
             callback(@[RCTMakeError(@"ERROR getting DistanceWalkingRunning", error, nil)]);
@@ -155,9 +157,7 @@
         }
 
         NSDictionary *response = @{
-                @"value" : @(distance),
-                @"startDate" : [RCTAppleHealthKit buildISO8601StringFromDate:startDate],
-                @"endDate" : [RCTAppleHealthKit buildISO8601StringFromDate:endDate],
+                @"value" : @(distance)
         };
 
 

@@ -311,6 +311,27 @@
     [self.healthStore executeQuery:query];
 }
 
+- (void)fetchDistanceBetweenTimeIntervals:(HKQuantityType *)quantityType
+                                 unit:(HKUnit *)unit
+                                  day:(NSDate *)day
+                            startDate: (NSDate *)startDate
+                              endDate: (NSDate *)endDate
+                           completion:(void (^)(double, NSError *))completionHandler {
+    
+    NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate: endDate];
+    HKStatisticsQuery *query = [[HKStatisticsQuery alloc] initWithQuantityType:quantityType
+                                                       quantitySamplePredicate:predicate
+                                                                       options:HKStatisticsOptionCumulativeSum
+                                                             completionHandler:^(HKStatisticsQuery *query, HKStatistics *result, NSError *error) {
+                                                                 HKQuantity *sum = [result sumQuantity];
+                                                                 if (completionHandler) {
+                                                                     double value = [sum doubleValueForUnit:unit];
+                                                                     completionHandler(value, error);
+                                                                 }
+                                                             }];
+    
+    [self.healthStore executeQuery:query];
+}
 
 - (void)fetchCumulativeSumStatisticsCollection:(HKQuantityType *)quantityType
                                           unit:(HKUnit *)unit

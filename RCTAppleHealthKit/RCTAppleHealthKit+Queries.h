@@ -45,4 +45,11 @@
                                    limit:(NSUInteger)lim
                                    completion:(void (^)(NSArray *, NSError *))completion;
 
+- (void)fetchDistanceBetweenTimeIntervals:(HKQuantityType *)quantityType
+                                     unit:(HKUnit *)unit
+                                      day:(NSDate *)day
+                                startDate: (NSDate *)startDate
+                                  endDate: (NSDate *)endDate
+                               completion:(void (^)(double, NSError *))completionHandler;
+
 @end
