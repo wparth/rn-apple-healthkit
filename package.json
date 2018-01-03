@@ -1,12 +1,13 @@
 {
-  "name": "rn-apple-healthkit",
-  "version": "0.6.1",
+  "name": "rn-apple-healthkit-ev",
+  "version": "0.6.2",
   "description": "A React Native package for interacting with Apple HealthKit",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/terrillo/rn-apple-healthkit.git"
   },
+  "registry": "http://mac-build-server.dev.evivehealth.com:4000/",
   "keywords": [
     "Apple",
     "health-kit",
